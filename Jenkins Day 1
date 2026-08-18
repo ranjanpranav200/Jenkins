@@ -24,7 +24,7 @@ Run these command
 3. Again Update the package 
 4. Install the jenkins 
 
-Check must be there for jenkins version
+5. Check must be there for jenkins version
 -----------------------------------------
 sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
   https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key 
