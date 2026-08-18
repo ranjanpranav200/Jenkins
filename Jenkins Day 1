@@ -19,9 +19,9 @@ Post download of java  :-
 
 Run these command 
 
-1. Download package of jenkins form server 
-2. Print message that it has been installed
-3. Update the package 
+1. Adding the Keys of Jenkins  
+2. Adding those keys into the source file
+3. Again Update the package 
 4. Install the jenkins 
 
 Check must be there for jenkins version
