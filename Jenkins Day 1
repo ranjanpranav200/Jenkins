@@ -37,3 +37,7 @@ sudo apt install jenkins
 jenkins --version
 
 ----------------------------------
+
+Install the java jdk. for compile (OpenJDK 21)
+
+sudo apt install openjdk-21-jdk -y
