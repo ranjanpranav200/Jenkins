@@ -1,0 +1,79 @@
+Day 1
+
+CI :-
+
+What is Continuous Integration?
+
+Continuous Integration (CI) is a development practice where developers integrate code into a shared repositiry frequently, preferably sereval time a day.
+
+
+Each Integration can then be verified by an automated build and automated test (unit test)
+
+It will build and test automatically every time when someone pushes new code into the source repositiry (Git Hub)
+
+
+Code -> Biuld -> Integrate -> Test -> Release -> Deploy -> Moniotor
+
+
+Benefits ->
+
+i) Integration time gap is relatively much lesser
+ii) Relatively lesser risk or changs in conflicts
+
+
+Importance of CI :
+
+Improve quality :- 
+                   Improve quality by running multiple unit test and analyzing various sttics code.
+
+
+Increase Productivity :- 
+
+                         Automating build of code save a lot of time thereby increasing producivity.
+
+Reduces Risk :-  
+						Eliminate the risk of potential human error by automating test.
+						
+Fast Delivery Business Process :- 
+									
+									
+									
+Jenkins :- 
+
+			A continous Integration server which manages and control processes such as plan, Code , Build test, Deploy, Operate and monitor in DepOps Enviroment.
+			
+			
+			Total Plugins :-    More than 2000+
+			
+Why So popular :- 
+
+1) Open Sources
+2) Good Plugin Support
+3) Good Community Support
+4) Fast and Reliable
+5) Good OS Support
+6) Scripted Builds
+
+
+Interview Question :
+
+					Any Scripts that can be runb at particular time. Job name?
+					
+					Corn Job ----> It doesn't want corn then what will come in picture.
+					     !!!!
+					---> Poll Scm---> Solution Automation Purpose
+
+Jenkins Can manage ?
+
+i) Source Control Management --> Build unit Testing
+ii) Manual Work/Activity
+iii) Schedule work :- Corn Job Unix
+iv) Automation (Running Scripts)
+
+* Jenkins runs on Jetty Web Server.
+
+					
+
+
+
+
