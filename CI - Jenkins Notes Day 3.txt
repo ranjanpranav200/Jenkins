@@ -1,0 +1,721 @@
+# Day 3 – DevOps Learning Notes 🚀
+
+## Jenkins User Management, Java, Spring Boot & Maven
+
+---
+
+## 1. Jenkins Installation on Cloud VM ☁️
+
+The practical session started with creating a **Virtual Machine (VM)** in the cloud.
+
+### Steps
+
+1. Create a Virtual Machine.
+2. Connect to the VM using **SSH**.
+3. Update the system packages.
+4. Install Java.
+5. Install Jenkins.
+6. Access Jenkins through the browser.
+
+### Become Root User
+
+```bash
+sudo -i
+```
+
+### Update Packages
+
+```bash
+sudo apt update
+```
+
+### Install Java 21
+
+```bash
+sudo apt install fontconfig openjdk-21-jre -y
+```
+
+### Add Jenkins Key
+
+```bash
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+```
+
+This downloads the Jenkins repository signing key.
+
+### Add Jenkins Repository
+
+```bash
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+```
+
+This adds the Jenkins repository to the system's package sources.
+
+### Update Packages Again
+
+```bash
+sudo apt update
+```
+
+### Install Jenkins
+
+```bash
+sudo apt install jenkins -y
+```
+
+### Check Jenkins Version
+
+```bash
+jenkins --version
+```
+
+---
+
+# 2. Access Jenkins 🌐
+
+After Jenkins installation:
+
+```text
+External IP Address : 8080
+```
+
+Open in the browser:
+
+```text
+http://<External-IP>:8080
+```
+
+Jenkins displays the **Unlock Jenkins / Initial Setup** page.
+
+Retrieve the initial administrator password using:
+
+```bash
+cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+Copy the password and use it to unlock Jenkins.
+
+---
+
+# 3. Jenkins User Management 👥
+
+In an enterprise environment, different users require different levels of access.
+
+### Example Scenario
+
+| Role            | Access                                                                |
+| --------------- | --------------------------------------------------------------------- |
+| 👨‍💻 Developer | View Jenkins and build jobs, but normally no configuration changes    |
+| 🧪 QA           | View and execute required jobs, but normally no configuration changes |
+| ⚙️ DevOps       | Administrative access and configuration management                    |
+| 🔧 L1 Support   | Limited operational access based on responsibilities                  |
+
+The goal is to follow the **Principle of Least Privilege** — users should receive only the permissions they actually need.
+
+---
+
+# 4. Q: How Do We Restrict Access in Jenkins?
+
+### Answer: RBAC
+
+**RBAC = Role-Based Access Control**
+
+RBAC allows permissions to be assigned based on a user's role.
+
+For example:
+
+```text
+Developer → Build / Read
+QA        → Read / Build
+DevOps    → Configure / Manage / Admin
+```
+
+Jenkins can use plugins to provide more advanced role-based authorization.
+
+After installing the required security plugin, authorization options can be configured under:
+
+**Manage Jenkins → Security**
+
+---
+
+# 5. Safe Jenkins Restart 🔄
+
+### Question
+
+**What is a safe way to restart Jenkins?**
+
+A Jenkins restart should ideally be performed when:
+
+* No critical jobs are running.
+* Active builds have completed.
+* There is no important deployment in progress.
+* The restart is planned during an appropriate maintenance window.
+
+In production, always check the running jobs before restarting Jenkins.
+
+---
+
+# 6. Jenkins Credentials 🔐
+
+### Question
+
+**Where are Jenkins passwords/credentials managed?**
+
+Jenkins provides a **Credentials** system for securely managing secrets such as:
+
+* Usernames/passwords
+* SSH keys
+* API tokens
+* Secret text
+* Cloud credentials
+
+Credentials can be scoped according to the required usage.
+
+### Common Scopes
+
+**Local / Item-level:**
+Used for a particular job or pipeline.
+
+**Global:**
+Available to multiple jobs/pipelines where the appropriate permissions allow access.
+
+> Never hard-code passwords or secrets directly inside Jenkinsfiles or shell scripts.
+
+---
+
+# 7. Mini Project – Java + Spring Boot ☕️
+
+The practical session also introduced a Java-based mini project.
+
+## What is Java?
+
+Java is a:
+
+* High-level programming language
+* Class-based language
+* Object-oriented programming language
+* General-purpose programming language
+
+### Major Features
+
+🔹 Platform independent
+🔹 Object-oriented
+🔹 Automatic garbage collection
+🔹 Exception/error handling
+🔹 Data encapsulation
+
+Java follows the concept:
+
+```text
+Write Once, Run Anywhere
+```
+
+because Java applications run on the **JVM (Java Virtual Machine)** available for different operating systems.
+
+---
+
+# 8. Spring Boot 🌱
+
+**Spring Boot** is a framework built on top of the Spring ecosystem that makes it easier to create and run Java applications.
+
+It provides a structured approach for building applications and is widely used for:
+
+* REST APIs
+* Web applications
+* Microservices
+* Backend services
+
+Typical flow:
+
+```text
+Java
+ ↓
+Spring Boot
+ ↓
+Application
+ ↓
+Build with Maven
+ ↓
+JAR
+ ↓
+Deploy
+```
+
+---
+
+# 9. Maven 🔨
+
+**Maven** is a build and project management tool commonly used for Java projects.
+
+Maven can help with:
+
+* Compiling source code
+* Managing dependencies
+* Running tests
+* Packaging applications
+* Creating JAR/WAR artifacts
+* Installing artifacts
+* Deploying artifacts
+
+Maven is primarily associated with Java, but its ecosystem can also support other technologies.
+
+---
+
+# 10. POM.xml
+
+Maven projects generally contain:
+
+```text
+pom.xml
+```
+
+**POM = Project Object Model**
+
+The `pom.xml` contains important project information such as:
+
+* Project details
+* Dependencies
+* Plugins
+* Build configuration
+* Packaging type
+* Version information
+
+---
+
+# 11. How Maven Works
+
+A simplified Maven process:
+
+```text
+pom.xml
+   ↓
+Read Project Configuration
+   ↓
+Download Dependencies
+   ↓
+Compile
+   ↓
+Run Tests
+   ↓
+Package
+   ↓
+Create Artifact
+```
+
+Dependencies are generally stored in the user's local Maven repository.
+
+---
+
+# 12. Maven Build Lifecycle 🔄
+
+The major Maven lifecycle phases include:
+
+```text
+validate
+   ↓
+compile
+   ↓
+test
+   ↓
+package
+   ↓
+verify
+   ↓
+install
+   ↓
+deploy
+```
+
+### Important Phases
+
+**compile** → Compiles the source code.
+
+**test** → Runs unit tests.
+
+**package** → Creates the application artifact such as JAR/WAR.
+
+**verify** → Performs checks on the package.
+
+**install** → Installs the artifact into the local Maven repository.
+
+**deploy** → Publishes the artifact to a remote repository.
+
+---
+
+# 13. Important Maven Commands
+
+### Run Tests
+
+```bash
+mvn test
+```
+
+### Compile Project
+
+```bash
+mvn compile
+```
+
+### Create Artifact
+
+```bash
+mvn package
+```
+
+### Clean Previous Build Files
+
+```bash
+mvn clean
+```
+
+### Clean + Install
+
+```bash
+mvn clean install
+```
+
+### Example Combined Command
+
+```bash
+mvn clean compile test package
+```
+
+Maven executes the requested lifecycle phases in their proper order.
+
+---
+
+# 14. `mvn clean install` vs `mvn install`
+
+### `mvn install`
+
+Builds the project and installs the generated artifact into the local Maven repository.
+
+### `mvn clean install`
+
+First removes the previous build output and then performs the installation.
+
+```text
+mvn clean install
+
+Clean
+ ↓
+Compile
+ ↓
+Test
+ ↓
+Package
+ ↓
+Install
+```
+
+---
+
+# 15. Maven Wrapper – `mvnw`
+
+### Q: What is `mvnw`?
+
+`mvnw` stands for **Maven Wrapper**.
+
+It allows a project to use Maven without requiring Maven to be separately installed and configured on every machine.
+
+Common files:
+
+```text
+mvnw
+mvnw.cmd
+.mvn/
+```
+
+### Linux/macOS
+
+```bash
+./mvnw clean package
+```
+
+### Windows
+
+```cmd
+mvnw.cmd clean package
+```
+
+The Maven Wrapper is particularly useful for ensuring that the project uses the expected Maven version.
+
+---
+
+# 16. Maven in Jenkins ⚙️
+
+Before using Maven commands in Jenkins, make sure Maven is available to the build environment.
+
+For a Linux machine, Maven can be installed using:
+
+```bash
+sudo apt install maven -y
+```
+
+Verify:
+
+```bash
+mvn -version
+```
+
+Then Jenkins can execute commands such as:
+
+```bash
+mvn clean package
+```
+
+### Important
+
+Before executing commands in Jenkins:
+
+* Check Maven installation.
+* Check Java installation.
+* Verify environment variables if required.
+* Check for spelling/typing errors.
+* Review Jenkins Console Output if the build fails.
+
+---
+
+# 17. Jenkins Workspace 📁
+
+A Jenkins **workspace** is the working directory allocated to a job where Jenkins checks out source code and performs build operations.
+
+Typical flow:
+
+```text
+Git Repository
+      ↓
+Jenkins Workspace
+      ↓
+Maven Build
+      ↓
+Target Directory
+      ↓
+JAR/WAR Artifact
+```
+
+---
+
+# 18. Where Does the Artifact Come From?
+
+After running:
+
+```bash
+mvn package
+```
+
+Maven normally creates the build output inside:
+
+```text
+target/
+```
+
+Example:
+
+```text
+target/
+ ├── classes/
+ ├── test-classes/
+ └── myapplication.jar
+```
+
+So:
+
+**Source Code → Maven Build → `target/` → JAR/WAR**
+
+---
+
+# 19. Where Are Artifacts Stored in Real Projects?
+
+In enterprise environments, artifacts are commonly published to artifact repositories such as:
+
+* **JFrog Artifactory**
+* **Sonatype Nexus Repository**
+
+Example:
+
+```text
+Developer
+   ↓
+Git
+   ↓
+Jenkins
+   ↓
+Maven Build
+   ↓
+JAR/WAR
+   ↓
+JFrog / Nexus
+   ↓
+Deployment
+```
+
+These repositories provide centralized artifact storage and distribution.
+
+---
+
+# 20. Running a JAR File 🚀
+
+Once a JAR file is generated, it can be executed using:
+
+```bash
+java -jar <name>.jar
+```
+
+For an application that supports a custom HTTP port:
+
+```bash
+java -jar <name>.jar --server.port=3000
+```
+
+For example:
+
+```bash
+java -jar myapplication.jar --server.port=3000
+```
+
+Then access the application using:
+
+```text
+http://localhost:3000
+```
+
+> For Spring Boot applications, `--server.port=3000` is the typical way to specify the HTTP port.
+
+---
+
+# 21. Testing the Application Locally 💻
+
+### Steps
+
+1. Copy the generated JAR file to a local directory, such as:
+
+```text
+C:\bin
+```
+
+2. Open Command Prompt in that directory.
+
+3. Run:
+
+```cmd
+java -jar myapplication.jar --server.port=3000
+```
+
+4. Open the browser:
+
+```text
+http://localhost:3000
+```
+
+5. Verify that the application is running successfully.
+
+---
+
+# 🔥 Complete DevOps Flow Learned
+
+The major concept from today's practical session:
+
+```text
+Developer
+    ↓
+GitHub
+    ↓
+Jenkins
+    ↓
+Checkout Code
+    ↓
+Maven
+    ↓
+Compile
+    ↓
+Test
+    ↓
+Package
+    ↓
+JAR/WAR
+    ↓
+Artifact Repository
+    ↓
+Deployment
+    ↓
+Application
+```
+
+---
+
+# 🧠 Day 3 Quick Revision
+
+### Jenkins
+
+* Jenkins installation on Cloud VM
+* SSH
+* Java installation
+* Jenkins repository
+* Jenkins installation
+* Port 8080
+* Initial admin password
+* User management
+* RBAC
+* Credentials
+* Safe restart
+
+### Java
+
+* Platform independence
+* OOP
+* Garbage collection
+* Exception handling
+* Encapsulation
+
+### Spring Boot
+
+* Java application framework
+* Web applications
+* REST APIs
+* Microservices
+
+### Maven
+
+* Build automation
+* Dependency management
+* Testing
+* Packaging
+* JAR/WAR generation
+* Maven lifecycle
+* Maven Wrapper
+* `pom.xml`
+
+### Artifact
+
+```text
+Maven → target/ → JAR/WAR → JFrog/Nexus → Deployment
+```
+
+## ⭐ Key Takeaway
+
+**Jenkins + Git + Maven + Java + Artifact Repository forms an important foundation for building a CI/CD pipeline.**
+
+The main goal is to automate the journey from:
+
+**Code → Build → Test → Package → Store → Deploy 🚀**
+
+
+
+Command to run jar file and test the deploy
+
+java -jar <name.jar file> --httpPort= 3000
+
+How we can test this local machine,
+
+In bin location put the java (jar) file and open cmd. With the Same Command we need to execute.
+java -jar <name.jar file> --httpPort= 3000
+
+With localhost we can see the website. 
+
+
+
+

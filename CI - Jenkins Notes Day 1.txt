@@ -1,0 +1,133 @@
+Day 1 – DevOps Notes: Continuous Integration & Jenkins
+1. Continuous Integration (CI)
+
+Continuous Integration (CI) is a software development practice where developers frequently integrate their code into a shared repository, preferably several times a day.
+
+Each integration is automatically verified through:
+
+Automated builds
+Automated tests
+Unit testing
+Code quality/static analysis
+
+Whenever a developer pushes new code to a source repository such as GitHub, the CI process can automatically build and test the application.
+
+CI Flow
+
+Code → Build → Integrate → Test → Release → Deploy → Monitor
+
+2. Benefits of CI
+🔹 Reduced Integration Time
+
+Frequent code integration reduces the gap between development and integration.
+
+🔹 Fewer Conflicts
+
+Smaller and frequent changes reduce the possibility of major merge and integration conflicts.
+
+🔹 Better Code Quality
+
+Automated unit tests and code analysis help identify bugs and quality issues early.
+
+🔹 Increased Productivity
+
+Automating builds and testing saves developers' time and allows them to focus on development.
+
+🔹 Reduced Risk
+
+Automation minimizes potential human errors during build and testing processes.
+
+🔹 Faster Delivery
+
+CI helps organizations deliver software changes faster and supports efficient business processes.
+
+3. Jenkins
+
+Jenkins is an open-source automation server widely used in DevOps for implementing Continuous Integration (CI) and Continuous Delivery/Deployment (CD).
+
+Jenkins can automate and manage processes such as:
+
+Plan → Code → Build → Test → Deploy → Operate → Monitor
+
+Why is Jenkins Popular?
+🆓 Open Source
+🔌 Large Plugin Ecosystem – 2,000+ plugins
+👥 Strong Community Support
+⚡ Fast and Reliable
+💻 Good Operating System Support
+📜 Supports Scripted Builds and Automation
+4. What Can Jenkins Manage?
+1️⃣ Source Control Management
+
+Jenkins can integrate with source control systems such as Git/GitHub and automate:
+
+Code → Build → Unit Testing
+
+2️⃣ Manual Activities
+
+Jenkins can automate repetitive manual tasks that would otherwise require human intervention.
+
+3️⃣ Scheduled Jobs
+
+Jenkins can execute jobs at specific times using scheduling mechanisms.
+
+For example:
+
+Cron → Scheduled execution
+
+4️⃣ Automation
+
+Jenkins can execute scripts and automate repetitive operational tasks.
+
+5. Interview Questions
+Q1. What is Continuous Integration?
+
+Answer:
+Continuous Integration is a development practice where developers frequently integrate their code into a shared repository, and every integration is automatically built and tested to detect issues early.
+
+Q2. What is Jenkins?
+
+Answer:
+Jenkins is an open-source automation server used primarily for CI/CD. It automates activities such as building, testing, deploying, and executing scripts.
+
+Q3. How can Jenkins trigger a job automatically?
+
+Jenkins can trigger jobs using mechanisms such as:
+
+Build periodically / Cron
+Poll SCM
+Webhook
+Manual trigger
+Other automated triggers
+Q4. What if we don't want to use Cron?
+
+Poll SCM can be used when Jenkins needs to periodically check the source-code repository for changes and trigger a build when changes are detected.
+
+Important: Poll SCM is different from a webhook. Poll SCM periodically checks for changes, while a webhook allows the source-control system to notify Jenkins immediately when an event occurs.
+
+Q5. What web server does Jenkins use?
+
+Jenkins uses Jetty as its embedded web server.
+
+🔑 Quick Revision
+
+CI: Frequently integrate + automatically build + automatically test.
+
+Jenkins: Automation server used for CI/CD.
+
+CI Benefits:
+Quality ↑ | Productivity ↑ | Risk ↓ | Delivery Speed ↑ | Integration Conflicts ↓
+
+Jenkins can:
+✅ Connect with Git/GitHub
+✅ Build applications
+✅ Run tests
+✅ Execute scripts
+✅ Schedule jobs
+✅ Automate deployments
+✅ Monitor/coordinate DevOps workflows
+
+Key Trigger Concepts:
+Cron / Build Periodically → Scheduled execution
+Poll SCM → Periodically checks SCM for changes
+Webhook → SCM notifies Jenkins about changes

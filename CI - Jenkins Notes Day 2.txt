@@ -1,0 +1,595 @@
+# Jenkins – Day 2 Notes 🚀
+
+## 1. Login into Cloud VM
+
+Once the VM is created in the cloud:
+
+1. Login to the cloud console.
+2. Open the VM instance.
+3. Connect to the VM using **SSH**.
+4. Login to the Linux VM.
+5. Install Jenkins on the VM.
+
+---
+
+# 2. Jenkins Installation on Linux
+
+## Step 1: Become Root User
+
+```bash
+sudo -i
+```
+
+**Purpose:**
+`sudo -i` switches to the **root user**, allowing administrative commands to be executed.
+
+---
+
+## Step 2: Prerequisites
+
+Before installing Jenkins:
+
+1. Update the system packages.
+2. Install Java.
+3. Verify the Java version.
+
+### Update Packages
+
+```bash
+sudo apt update
+```
+
+### Install Java
+
+```bash
+sudo apt install fontconfig openjdk-21-jre -y
+```
+
+### Check Java Version
+
+```bash
+java -version
+```
+
+Jenkins requires Java to run.
+
+---
+
+# 3. Add Jenkins Repository
+
+After Java installation, configure the Jenkins repository.
+
+### Step 1: Add Jenkins Key
+
+```bash
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+```
+
+The key is used to verify packages downloaded from the Jenkins repository.
+
+### Step 2: Add Jenkins Repository
+
+```bash
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+```
+
+### Step 3: Update Package Information
+
+```bash
+sudo apt update
+```
+
+### Step 4: Install Jenkins
+
+```bash
+sudo apt install jenkins
+```
+
+### Step 5: Verify Jenkins Version
+
+```bash
+jenkins --version
+```
+
+---
+
+# 4. Access Jenkins from Browser 🌐
+
+After Jenkins installation:
+
+1. Copy the **External IP Address** of the VM.
+2. Open a browser.
+3. Enter:
+
+```text
+http://<External-IP>:8080
+```
+
+Example:
+
+```text
+http://35.xxx.xxx.xxx:8080
+```
+
+Port **8080** is the default Jenkins web port.
+
+> **Important:** The VM's firewall/security rule must allow TCP traffic on port 8080.
+
+---
+
+# 5. Jenkins Initial Admin Password 🔐
+
+When Jenkins opens for the first time, it asks for the initial administrator password.
+
+Run:
+
+```bash
+cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+Copy the displayed password and paste it into the Jenkins setup page.
+
+### Then:
+
+1. Unlock Jenkins.
+2. Create the first administrator user.
+3. Configure the initial Jenkins setup.
+4. Login to Jenkins.
+
+🎉 **Jenkins is now ready to use.**
+
+> **Note:** Keep administrator credentials secure. Don't share or expose them publicly.
+
+---
+
+# 6. Jenkins Plugins 🔌
+
+During initial setup, Jenkins installs/configures many plugins.
+
+Plugins extend Jenkins functionality and allow Jenkins to integrate with:
+
+* Git/GitHub
+* Maven
+* Java
+* Docker
+* Kubernetes
+* Cloud platforms
+* Notification systems
+* Testing tools
+
+Initially, Jenkins can have **100+ plugins**, depending on the installation/setup.
+
+---
+
+# 7. Jenkins Job Types
+
+When creating a Jenkins project, different job types are available.
+
+## 1. Freestyle Project
+
+A **Freestyle Project** is a general-purpose Jenkins job that provides flexibility for building and automating projects.
+
+### Uses
+
+* Execute shell commands
+* Execute Windows batch commands
+* Connect to Git
+* Build applications
+* Run tests
+* Archive artifacts
+
+It can be used for many different types of projects.
+
+---
+
+## 2. Pipeline
+
+A **Pipeline** defines the complete software development workflow as code.
+
+Instead of creating separate Jenkins jobs for every stage, the entire workflow can be defined in a **Jenkinsfile**.
+
+Example workflow:
+
+```text
+Code
+ ↓
+Build
+ ↓
+Test
+ ↓
+Package
+ ↓
+Deploy
+```
+
+### Main advantage
+
+The pipeline is stored as code and can be version-controlled along with the application.
+
+---
+
+## 3. Multiconfiguration Project
+
+A **Multiconfiguration Project** allows the same build job to run with different configurations.
+
+For example:
+
+```text
+Application
+   ├── Development
+   ├── Testing
+   ├── QA
+   └── Production
+```
+
+It can be useful for testing an application across different environments/configurations.
+
+---
+
+## 4. Folder
+
+A **Folder** is used to organize Jenkins jobs.
+
+Example:
+
+```text
+Jenkins
+│
+├── Development
+│   ├── Java-Build
+│   └── Java-Test
+│
+├── Production
+│   ├── Application-Deploy
+│   └── Database-Deploy
+```
+
+Folders help keep large Jenkins environments organized.
+
+---
+
+## 5. Multibranch Pipeline
+
+A **Multibranch Pipeline** automatically discovers and builds different branches of a repository when they contain a Jenkinsfile.
+
+Example:
+
+```text
+Git Repository
+│
+├── main
+│   └── Jenkinsfile
+│
+├── develop
+│   └── Jenkinsfile
+│
+└── feature/login
+    └── Jenkinsfile
+```
+
+This is especially useful for Git-based development workflows.
+
+---
+
+# 8. Practical – Create First Jenkins Job 🛠️
+
+### Step 1: Login to Jenkins
+
+Open Jenkins in the browser and login.
+
+### Step 2: Create a Freestyle Project
+
+Create a job named:
+
+```text
+myfirstjob
+```
+
+### Step 3: Configure Git
+
+Go to:
+
+**Configure → Source Code Management → Git**
+
+Enter the repository URL.
+
+Example:
+
+```text
+https://github.com/<username>/<repository>.git
+```
+
+### Step 4: Save Configuration
+
+Click:
+
+**Save**
+
+### Step 5: Build the Job
+
+Click:
+
+**Build Now**
+
+### Step 6: Check Build Result
+
+Check the build history and console output.
+
+If the build fails, check the **Console Output** to identify the problem.
+
+---
+
+# 9. If Build Fails Because of Java/JRE
+
+Check Java:
+
+```bash
+java -version
+```
+
+If Java/JRE is missing or incorrectly configured, install/configure the required Java environment.
+
+After fixing the environment:
+
+1. Restart/re-login if required.
+2. Run the Jenkins job again.
+3. Check the console output.
+
+---
+
+# 10. What Happens When Code Changes?
+
+Suppose the developer changes the source code:
+
+```text
+Developer
+    ↓
+Changes Code
+    ↓
+Git Repository
+    ↓
+Jenkins
+    ↓
+Build
+    ↓
+Test
+```
+
+Instead of manually clicking **Build Now** every time, Jenkins can automatically detect changes.
+
+---
+
+# 11. Automating Builds Using Poll SCM 🔄
+
+Go to:
+
+**Job → Configure → Build Triggers**
+
+Enable:
+
+**Poll SCM**
+
+Example schedule:
+
+```text
+* * * * *
+```
+
+This means Jenkins checks the repository approximately **every minute**.
+
+If Jenkins detects a change, it can trigger a build.
+
+### Example
+
+```text
+Developer changes code
+        ↓
+Push to GitHub
+        ↓
+Jenkins Poll SCM
+        ↓
+Change detected
+        ↓
+Jenkins starts build
+```
+
+> **Important:** Poll SCM is different from a webhook. Poll SCM periodically asks Git whether there is a change; a webhook allows GitHub to notify Jenkins when an event occurs.
+
+---
+
+# 12. Build with Maven ☕️
+
+For Java applications, Maven can be used to build the project.
+
+Typical process:
+
+```text
+Java Source Code
+       ↓
+     Maven
+       ↓
+Compile
+       ↓
+Test
+       ↓
+Package
+       ↓
+JAR / WAR
+```
+
+---
+
+# 13. JAR and WAR Files
+
+## JAR – Java ARchive
+
+A **JAR** file packages Java classes, resources, and metadata into a single archive.
+
+Example:
+
+```text
+application.jar
+```
+
+A Spring Boot application, for example, can commonly be started with:
+
+```bash
+java -jar application.jar
+```
+
+---
+
+## WAR – Web ARchive
+
+A **WAR** file is used to package Java web applications for deployment to a compatible Java web/application server.
+
+Example:
+
+```text
+application.war
+```
+
+---
+
+# 14. Running a WAR File Locally
+
+A WAR file can be run directly with Java when it is a self-contained executable WAR, such as a Jenkins WAR.
+
+Example:
+
+```bash
+java -jar jenkins.war
+```
+
+To run it on port **8082**:
+
+```bash
+java -jar jenkins.war --httpPort=8082
+```
+
+Then access:
+
+```text
+http://localhost:8082
+```
+
+---
+
+# 15. Practical Local WAR Deployment
+
+### Step 1
+
+Create a folder, for example:
+
+```text
+C:\bin
+```
+
+### Step 2
+
+Copy the WAR file into the folder.
+
+Example:
+
+```text
+C:\bin\jenkins.war
+```
+
+### Step 3
+
+Open Command Prompt in that directory.
+
+### Step 4
+
+Run:
+
+```bash
+java -jar jenkins.war
+```
+
+Or specify a different port:
+
+```bash
+java -jar jenkins.war --httpPort=8082
+```
+
+---
+
+# 🔑 Important Commands to Remember
+
+| Command                                             | Purpose                      |
+| --------------------------------------------------- | ---------------------------- |
+| `sudo -i`                                           | Become root user             |
+| `sudo apt update`                                   | Update package information   |
+| `sudo apt install fontconfig openjdk-21-jre -y`     | Install Java 21 JRE          |
+| `java -version`                                     | Check Java version           |
+| `jenkins --version`                                 | Check Jenkins version        |
+| `cat /var/lib/jenkins/secrets/initialAdminPassword` | Get initial Jenkins password |
+| `java -jar application.jar`                         | Run executable JAR           |
+| `java -jar jenkins.war`                             | Run Jenkins WAR              |
+| `java -jar jenkins.war --httpPort=8082`             | Run Jenkins WAR on port 8082 |
+
+---
+
+# 🧠 Day 2 – Quick Revision
+
+### Jenkins Installation
+
+```text
+Cloud VM
+   ↓
+SSH Login
+   ↓
+sudo -i
+   ↓
+apt update
+   ↓
+Install Java
+   ↓
+Add Jenkins Key
+   ↓
+Add Jenkins Repository
+   ↓
+apt update
+   ↓
+Install Jenkins
+   ↓
+Check Jenkins Version
+   ↓
+Access :8080
+   ↓
+Initial Password
+   ↓
+Create Admin User
+   ↓
+Jenkins Ready
+```
+
+### Jenkins Automation
+
+```text
+Developer
+    ↓
+Code Change
+    ↓
+GitHub
+    ↓
+Poll SCM / Webhook
+    ↓
+Jenkins
+    ↓
+Build
+    ↓
+Test
+    ↓
+JAR / WAR
+    ↓
+Deployment
+```
+
+### ⭐ Key Takeaway
+
+**Jenkins automates the software delivery process by integrating source-code management, building, testing, packaging, and deployment into repeatable workflows.**
