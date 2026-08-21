@@ -1,43 +1,36 @@
-Linux Command for Jnekinbs Installion :- 
-
-Sudo -i :- Become the root user
-
-Prerequest :- 
-
-1. Update the package
-2. Install Java first
-3. check java version
-----------------------------------------------------
-
-sudo apt update  -- Update the package
-sudo apt install fontconfig openjdk-21-jre - y
-java -version
+Jenkins Installation – Short Notes
 
 
-------------------------------------------------
-Post download of java  :- 
+1. Become Root
+sudo -i
 
-Run these command 
+Purpose: Switch to root user.
 
-1. Adding the Keys of Jenkins  
-2. Adding those keys into the source file
-3. Again Update the package 
-4. Install the jenkins 
-
-5. Check must be there for jenkins version
------------------------------------------
-sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
-  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key 
-echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
-  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-  /etc/apt/sources.list.d/jenkins.list > /dev/null
+2. Update Packages
 sudo apt update
-sudo apt install jenkins
 
+Purpose: Refresh available package information.
+
+3. Install Java
+sudo apt install fontconfig openjdk-21-jre -y
+
+Check Java:
+
+java -version
+4. Add Jenkins Key
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+5. Add Jenkins Repository
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+6. Update & Install Jenkins
+sudo apt update
+sudo apt install jenkins -y
+7. Verify Jenkins
 jenkins --version
 
-----------------------------------
-
-Install the java jdk. for compile (OpenJDK 21)
-
+8. Install JDK for Java Compilation
 sudo apt install openjdk-21-jdk -y
+🔄 Flow
+
+
+Update → Install Java → Verify Java → Add Jenkins Key → Add Repository → Update → Install Jenkins → Verify Jenkins → Install JDK if required
